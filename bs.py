@@ -10,10 +10,16 @@ content = response.text
 soup = BeautifulSoup(content, 'html.parser')  
 
 titles = soup.find_all('p', class_="cue-line") 
-for title in titles:
-    print(title.get_text()) 
+# for title in titles:
+#     print(title.get_text()) 
 
-print("The whole script is printed above")    
+print("The whole script is printed above")   
+
+with open("titanic_script.txt", "w", encoding='utf-8') as f:
+    for title in titles:
+        f.write(title.get_text() + "\n")
+
+
 # i = 0  
 # for title in titles:
 #     print(title.get_text())
