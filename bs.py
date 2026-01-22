@@ -1,31 +1,49 @@
 from bs4 import BeautifulSoup   
 import requests 
 
-website = "https://subslikescript.com/movies"
+root = "https://subslikescript.com/movies"
 
-response = requests.get(website)
+response = requests.get(root)
 
 content = response.text 
 
 soup = BeautifulSoup(content, 'html.parser')  
 
-box = soup.find('article', class_="main-article")   
+#pagination section
 
-link_section = box.find_all('a', href=True)
+pagination = soup.find('ul', class_="pagination")  
 
-links = []
+pages = pagination.find_all('li', class_="page-item") 
 
-for link in link_section:
-    links.append(link['href'])
+last_page = pages[-2].get_text()
 
-print("The links are being printed below:")
+for page in range(1, int(last_page)+1): 
+    webpage = f"{root}?page={page}"
 
-for link in links:
-    print("https://subslikescript.com" + link)
+    response = requests.get(webpage)
+
+    content = response.text 
+
+    soup = BeautifulSoup(content, 'html.parser')  
+
+ 
+    box = soup.find('article', class_="main-article")   
+
+    link_section = box.find_all('a', href=True)
+
+    links = []
+
+    for link in link_section:
+        links.append(link['href'])
+
+    print("The links are being printed below:")
+
+    for link in links:
+        print("https://subslikescript.com" + link)
 
 
-print("\n")
-print("The links are printed successfully")
+    print("\n")
+    print("The links are printed successfully")
 
 # titles = soup.find_all('p', class_="cue-line") 
 # # for title in titles:
