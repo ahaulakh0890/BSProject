@@ -17,10 +17,12 @@ pages = pagination.find_all('li', class_="page-item")
 
 last_page = pages[-2].get_text()
 
-for page in range(1, int(last_page)+1): 
+for page in range(1, 5): 
     webpage = f"{root}?page={page}"
 
     response = requests.get(webpage)
+
+    titles = soup.find_all('p', class_="cue-line") 
 
     content = response.text 
 
@@ -38,9 +40,17 @@ for page in range(1, int(last_page)+1):
 
     print("The links are being printed below:")
 
-    for link in links:
-        print("https://subslikescript.com" + link)
+    
 
+    # for link in links:
+    #     print("https://subslikescript.com" + link)
+
+    i = 1
+
+    for i in range(5): 
+        with open(f'abc.txt{i}', "w", encoding='utf-8') as f:
+            for link in links:
+                f.write(link + "\n")
 
     print("\n")
     print("The links are printed successfully")
